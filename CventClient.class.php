@@ -99,6 +99,38 @@ class CventClient extends SoapClient {
 		if(isset($response->SearchResult->Id)) return count($response->SearchResult->Id);
 		return false;
 	}
+	public function GetRegistrations($eventId) {
+		// needs to be tested
+		$response = $this->SearchByFilter('Registration', 'AndSearch', array((object) array('Field' => 'EventId', 'Operator' => 'Equals', 'Value' => $eventId)));
+		//if(isset($response->SearchResult->Id)) return count($response->SearchResult->Id);
+		return $response;
+	}
+	public function GetRegistrationDetails($RegistrationId) {
+		// needs to be tested
+		//$response = $this->SearchByFilter('Registration', 'AndSearch', array((object) array('Field' => 'Id', 'Operator' => 'Equals', 'Value' => $RegistrationId)));
+		//if(isset($response->SearchResult->Id)) return count($response->SearchResult->Id);
+		//return $response;
+		return $this->RetrieveAllPages('Registration', $RegistrationId);
+	}
+	// this is not working - DEV01
+	public function GetNumberOfRegistrationSession($ProductId) {
+		// needs to be tested
+		$response = $this->SearchByFilter('Registration', 'AndSearch', array((object) array('Field' => 'ProductId', 'Operator' => 'Equals', 'Value' => $ProductId)));
+		if(isset($response->SearchResult->Id)) return count($response->SearchResult->Id);
+		return false;
+	}
+	// this is not working - DEV01
+	public function GetEventDetails($eventId){ 	
+		$response = $this->SearchByFilter('EventDetails', 'AndSearch', array((object) array('Field' => 'ProductId', 'Operator' => 'Equals', 'Value' => $eventId)));
+		return  $response ; 
+ 	}
+	
+	public function GetEventParameters($eventId){
+		return $this->RetrieveAllPages('EventParameters', $eventId);		
+	}
+	public function GetSessiondetails($sessionId){
+		return $this->RetrieveAllPages('Session', $sessionId);		
+	}
 
 	public function GetNumberOfGuests($eventId) {
 		// needs to be tested
